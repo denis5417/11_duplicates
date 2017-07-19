@@ -1,7 +1,17 @@
-# Anti-Duplicator
+# Поиск дубликатов
 
-[TODO. There will be project description]
+Скрипт принимает на вход папку, просматривает все файлы в ней (и всех подпапках и под-под-...папках) и сообщает, если находит дубликаты.
 
-# Project Goals
+# Использование
 
-The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
+Пример использования в Linux (Python 3.6.1)
+
+```#!bash
+$ python3 duplicates.py <path_to_dir>
+Файл test/test3/test4/test5/test6/test1.txt дублируется с файлом test/test1.txt
+Файл test/test3/test2.txt дублируется с файлом test/test2.txt
+```
+
+# Цель проекта
+
+Этот код написан в образовательных целях. Тренировачный курс для веб-девелоперов - [DEVMAN.org](https://devman.org)

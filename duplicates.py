@@ -1,6 +1,7 @@
-import sys
 import os
+import argparse
 
+DIR_NOT_EXIST = -1
 
 def get_all_files(dir):
     path_f = []
@@ -9,7 +10,7 @@ def get_all_files(dir):
             if not f.startswith("."):
                 path = os.path.join(dirs, f)
                 path_f.append(path)
-    return path_f
+    return sorted(path_f, key=lambda file: os.path.basename(file))
 
 
 def are_files_duplicates(file1, file2):
@@ -17,18 +18,30 @@ def are_files_duplicates(file1, file2):
 
 
 def find_duplicates(dir):
+    duplicates = []
     if not os.path.exists(dir):
-        print("Такой директории не существует")
-        return None
+        return DIR_NOT_EXIST
     path_f = get_all_files(dir)
-    for counter_1 in range(0, len(path_f)):
-        for counter_2 in range(counter_1+1, len(path_f)):
-            if are_files_duplicates(path_f[counter_1], path_f[counter_2]):
-                    print("Файл {} дублируется с файлом {}".format(path_f[counter_2], path_f[counter_1]))
+    for counter in range(0, len(path_f)):
+        try:
+            if are_files_duplicates(path_f[counter], path_f[counter + 1]):
+                    duplicates.append((path_f[counter], path_f[counter + 1]))
+        except IndexError:  # we are in the end of path_f
+            pass
+    return duplicates
+
+
+def arg_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("dirpath", type=str, help="Path to cheking dir")
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
-    try:
-        find_duplicates(sys.argv[1])
-    except IndexError:
-        print("Укажите название файла")
+    duplicates = find_duplicates(arg_parser().dirpath)
+    if duplicates == -1:
+        print("Такой директории не существует")
+    elif duplicates:
+        print("\n".join("{} дублируется с {}".format(duplicate[0], duplicate[1]) for duplicate in duplicates))
+    else:
+        print("Дубликатов нет")

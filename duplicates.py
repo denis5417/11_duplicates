@@ -1,5 +1,6 @@
 import os
 import argparse
+from time import time
 
 DIR_NOT_EXIST = -1
 
@@ -22,12 +23,9 @@ def find_duplicates(dir):
     if not os.path.exists(dir):
         return DIR_NOT_EXIST
     path_f = get_all_files(dir)
-    for counter in range(0, len(path_f)):
-        try:
-            if are_files_duplicates(path_f[counter], path_f[counter + 1]):
-                    duplicates.append((path_f[counter], path_f[counter + 1]))
-        except IndexError:  # we are in the end of path_f
-            pass
+    for counter in range(0, len(path_f)-1):
+        if are_files_duplicates(path_f[counter], path_f[counter + 1]):
+                duplicates.append((path_f[counter], path_f[counter + 1]))
     return duplicates
 
 
@@ -38,7 +36,10 @@ def arg_parser():
 
 
 if __name__ == '__main__':
+    tic = time()
     duplicates = find_duplicates(arg_parser().dirpath)
+    tuc = time()
+    print(tuc - tic)
     if duplicates == -1:
         print("Такой директории не существует")
     elif duplicates:

@@ -36,10 +36,7 @@ def arg_parser():
 
 
 if __name__ == '__main__':
-    tic = time()
     duplicates = find_duplicates(arg_parser().dirpath)
-    tuc = time()
-    print(tuc - tic)
     if duplicates == -1:
         print("Такой директории не существует")
     elif duplicates:

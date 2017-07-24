@@ -22,15 +22,9 @@ def is_dir_exist(dir):
 def find_duplicates(dir):
     duplicates = []
     path_f = get_all_files(dir)
-    files_iterator = iter(path_f)
-    next(files_iterator)
-    try:
-        for file in path_f:
-            next_file = next(files_iterator)
-            if are_files_duplicates(file, next_file):
-                duplicates.append((file, next_file))
-    except StopIteration:
-        pass
+    for current_file, next_file in zip(path_f, path_f[1:]):
+        if are_files_duplicates(current_file, next_file):
+            duplicates.append((current_file, next_file))
     return duplicates
 
 

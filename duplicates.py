@@ -1,8 +1,6 @@
 import os
 import argparse
 
-DIR_NOT_EXIST = -1
-
 
 def get_all_files(dir):
     path_f = []
